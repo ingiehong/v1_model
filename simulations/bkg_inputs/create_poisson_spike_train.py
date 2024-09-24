@@ -25,7 +25,7 @@ if __name__ == '__main__':
     
     op = '.' # output folder change accordingly
     firing_rate_list = [1000]
-    total_time = 3000 # ms
+    total_time = 12000 # ms
     num_nodes = 1
     dt = 0.25 # ms
     num_trials = 10
