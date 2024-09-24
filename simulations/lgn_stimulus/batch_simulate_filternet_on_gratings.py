@@ -50,7 +50,7 @@ base_config = {
         ]
     },
     "config_path": "",
-    "config_dir": "/Users/owensong/Desktop/Huganir Lab/V1 model/Models/simulations/lgn_stimulus/configs"
+    "config_dir": "./configs"
 }
 
 # Ensure the ./configs directory exists
@@ -65,7 +65,7 @@ for theta in theta_values:
     base_config["inputs"]["LGN_spikes"]["theta"] = theta
     base_config["output"]["output_dir"] = f"./results/12s_SF0.04_TF2.0_ori{theta}_c100.0_gs0.5"
     config_filename = f"config.filternet.dg.2Hz.{theta}deg.4s.json"
-    base_config["config_path"] = f"/Users/owensong/Desktop/Huganir Lab/V1 model/Models/simulations/lgn_stimulus/configs/{config_filename}"
+    base_config["config_path"] = f"./configs/{config_filename}"
 
     # Generate the JSON file
     json_filepath = f"./configs/{config_filename}"
