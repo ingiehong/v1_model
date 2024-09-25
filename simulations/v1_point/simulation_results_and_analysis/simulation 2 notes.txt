@@ -1,0 +1,21 @@
+12s, double gray:
+BKG spikes: 12199 
+(v1_point/../bkg_inputs/results/bkg_spikes_n1_fr1000_dt0.25_12s/spikes.trial_0.csv)
+
+LGN spikes between 4000.0 and 8000.0: 337078 
+LGN spikes between 4000.0 and 6500.0: 228072
+Cpd = 0.04, between 4000.0 and 6500.0: 235081
+
+V1 Spikes between 4000.0 and 8000.0: 1510356
+V1 Spikes between 4000.0 and 6500.0: 963458
+
+3s, single gray
+BKG spikes: 3037 
+
+LGN spikes between 500.0 and 3000.0: 
+-> GS_PS_corrected, c=100: 303484
+-> corrected, c = 80.0: 213498
+
+V1 Spikes between 500.0 and 3000.0: 1846015
+
+
