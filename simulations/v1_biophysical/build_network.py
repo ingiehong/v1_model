@@ -3,7 +3,7 @@ import pandas as pd
 import json
 import argparse
 import logging
-from mpi4py import MPI
+
 import numpy as np
 
 from bmtk.builder import NetworkBuilder
