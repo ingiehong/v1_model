@@ -104,7 +104,7 @@ def run_simulation(config_file, num_cores):
 # Generate and run simulations
 for trial in range(trials):
     # Create unique output directory for each simulation
-    output_dir = os.path.join(base_dir, 'output', f'sg7_12s_full_gray_trial_{trial}')
+    output_dir = os.path.join(base_dir, 'output', f'sg9_12s_full_gray_trial_{trial}')
     os.makedirs(output_dir, exist_ok=True)
 
     # Update the configuration
