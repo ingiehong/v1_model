@@ -31,7 +31,7 @@ def calculate_Rates_DF(numNrns, trials = 10,  oris = np.arange(0, 360, 45)):
 
         for trial in range(trials):
 
-            spikes_file_name = 'biophysical/spikes_driftingGratings_ori' + str(float(ori)) + '_trial' + str(trial) + '.txt'
+            spikes_file_name = 'glif/spikes_driftingGratings_ori' + str(float(ori)) + '_trial' + str(trial) + '.txt'
 
             spikes = np.loadtxt(spikes_file_name, unpack=True)
             ts, gids = spikes
@@ -50,7 +50,7 @@ def calculate_Rates_DF(numNrns, trials = 10,  oris = np.arange(0, 360, 45)):
         Rates_DF.loc[i*numNrns:(i+1)*numNrns-1, 'SD_rate(Hz)']  = np.std(firingRatesTrials, axis= 0)
 
 
-    Rates_DF.to_csv('biophysical/Rates_DF.csv', sep = ' ', index = False)
+    Rates_DF.to_csv('glif/Rates_DF.csv', sep = ' ', index = False)
 
 
 def calculate_OSI_DSI_from_DF(Rates_DF):
@@ -61,8 +61,8 @@ def calculate_OSI_DSI_from_DF(Rates_DF):
 
     zz = 0
     for i in range(numNrns):
-        rates = np.array(Rates_DF.ix[Rates_DF['node_id'] == i, 'Avg_rate(Hz)'])
-        angles = np.array(Rates_DF.ix[Rates_DF['node_id'] == i, 'DG_angle'])
+        rates = np.array(Rates_DF.loc[Rates_DF['node_id'] == i, 'Avg_rate(Hz)'])
+        angles = np.array(Rates_DF.loc[Rates_DF['node_id'] == i, 'DG_angle'])
         if i%2000 == 0:
             print ('cell: ', i)
 
@@ -97,7 +97,7 @@ def calculate_OSI_DSI_from_DF(Rates_DF):
         OSI_DSI_DF.loc[i, 'Avg_Rate(Hz)'] = np.mean(rates)
 
 
-    OSI_DSI_DF.to_csv('biophysical/OSI_DSI_DF.csv', sep = ' ', index = False)
+    OSI_DSI_DF.to_csv('glif/OSI_DSI_DF.csv', sep = ' ', index = False)
 
 
 
@@ -106,13 +106,13 @@ if __name__ == "__main__":
     trials = 10
     oris = np.arange(0, 360, 45)
 
-    nodes_file_name = '../Biophysical_network/network/v1_nodes.csv'
+    nodes_file_name = '../v1_biophysical/network/v1_nodes.csv'
     nodes_DF = pd.read_csv(nodes_file_name, sep=' ')
     numNrns = len(nodes_DF)
 
     calculate_Rates_DF(numNrns, trials = trials, oris = oris)
     print ("Done_Rates_DF!")
 
-    Rates_DF = pd.read_csv('Rates_DF.csv', sep=' ', index_col=False)
+    Rates_DF = pd.read_csv('glif/Rates_DF.csv', sep=' ', index_col=False)
     calculate_OSI_DSI_from_DF(Rates_DF)
     print ("Done with all!")
