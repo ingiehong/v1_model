@@ -59,6 +59,77 @@ def DirectionRule_EE(edges, src_nodes, trg_nodes):
 
     return syn_weight * w_multiplier_180 * phase_scale_ratio * nsyn
 
+# Yidong: randomly disconnected a portion of synapses to simulate decrease in connection probability
+@synaptic_weight
+def DirectionRule_EE_Thanos(edges, src_nodes, trg_nodes):
+    src_tuning = src_nodes['tuning_angle'].values
+    tar_tuning = trg_nodes['tuning_angle'].values
+    x_tar = trg_nodes['x'].values
+    x_src = src_nodes['x'].values
+    z_tar = trg_nodes['z'].values
+    z_src = src_nodes['z'].values
+    sigma = edges['weight_sigma'].values
+    nsyn = edges['nsyns'].values
+    syn_weight = edges['syn_weight'].values
+
+    # Yidong: Randomly set 7/11 of the syn_weight values to 0
+    num_to_zero = int(len(syn_weight) * 7 / 11)
+    indices_to_zero = np.random.choice(len(syn_weight), num_to_zero, replace=False)
+    syn_weight[indices_to_zero] = 0
+
+    delta_tuning_180 = np.abs(np.abs(np.mod(np.abs(tar_tuning - src_tuning), 360.0) - 180.0) - 180.0)
+    w_multiplier_180 = np.exp(-(delta_tuning_180 / sigma) ** 2)
+
+    delta_x = (x_tar - x_src) * 0.07
+    delta_z = (z_tar - z_src) * 0.04
+
+    theta_pref = tar_tuning * (np.pi / 180.)
+    xz = delta_x * np.cos(theta_pref) + delta_z * np.sin(theta_pref)
+    sigma_phase = 1.0
+    phase_scale_ratio = np.exp(- (xz ** 2 / (2 * sigma_phase ** 2)))
+
+    # To account for the 0.07 vs 0.04 dimensions. This ensures the horizontal neurons are scaled by 5.5/4 (from the
+    # midpoint of 4 & 7). Also, ensures the vertical is scaled by 5.5/7. This was a basic linear estimate to get the
+    # numbers (y = ax + b).
+    theta_tar_scale = abs(abs(abs(180.0 - np.mod(np.abs(tar_tuning), 360.0)) - 90.0) - 90.0)
+    phase_scale_ratio = phase_scale_ratio * (5.5 / 4.0 - 11.0 / 1680.0 * theta_tar_scale)
+
+    return syn_weight * w_multiplier_180 * phase_scale_ratio * nsyn
+
+# Yidong: Strengthen synapses by a given ratio
+@synaptic_weight
+def DirectionRule_EE_Strengthen(edges, src_nodes, trg_nodes):
+    src_tuning = src_nodes['tuning_angle'].values
+    tar_tuning = trg_nodes['tuning_angle'].values
+    x_tar = trg_nodes['x'].values
+    x_src = src_nodes['x'].values
+    z_tar = trg_nodes['z'].values
+    z_src = src_nodes['z'].values
+    sigma = edges['weight_sigma'].values
+    nsyn = edges['nsyns'].values
+    syn_weight = edges['syn_weight'].values
+
+    # Yidong: Strengthen the synapses by 7.5/6.9
+    syn_weight *= (7.5 / 6.9)
+
+    delta_tuning_180 = np.abs(np.abs(np.mod(np.abs(tar_tuning - src_tuning), 360.0) - 180.0) - 180.0)
+    w_multiplier_180 = np.exp(-(delta_tuning_180 / sigma) ** 2)
+
+    delta_x = (x_tar - x_src) * 0.07
+    delta_z = (z_tar - z_src) * 0.04
+
+    theta_pref = tar_tuning * (np.pi / 180.)
+    xz = delta_x * np.cos(theta_pref) + delta_z * np.sin(theta_pref)
+    sigma_phase = 1.0
+    phase_scale_ratio = np.exp(- (xz ** 2 / (2 * sigma_phase ** 2)))
+
+    # To account for the 0.07 vs 0.04 dimensions. This ensures the horizontal neurons are scaled by 5.5/4 (from the
+    # midpoint of 4 & 7). Also, ensures the vertical is scaled by 5.5/7. This was a basic linear estimate to get the
+    # numbers (y = ax + b).
+    theta_tar_scale = abs(abs(abs(180.0 - np.mod(np.abs(tar_tuning), 360.0)) - 90.0) - 90.0)
+    phase_scale_ratio = phase_scale_ratio * (5.5 / 4.0 - 11.0 / 1680.0 * theta_tar_scale)
+
+    return syn_weight * w_multiplier_180 * phase_scale_ratio * nsyn
 
 def main(config_file):
     configure = pointnet.Config.from_json(config_file)
