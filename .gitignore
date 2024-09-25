@@ -1,0 +1,13 @@
+*.idea*
+*.zip
+*.h5
+*.csv
+!v1_v1_edge_types.csv
+*.nwb
+*.txt
+*.json
+*.pkl
+*.png
+*.*~
+*DS_Store
+*__pycache__*
