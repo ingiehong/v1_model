@@ -103,8 +103,8 @@ def run_simulation(config_file, num_cores):
 
 
 # Generate and run simulations
-for ori in orientations:
-    for trial in range(trials):
+for ori in reversed(orientations):
+    for trial in reversed(range(trials)):
         # Create unique output directory for each simulation
         output_dir = os.path.join(base_dir, 'output', f'sg10_12s_ori_{ori}_trial_{trial}')
         os.makedirs(output_dir, exist_ok=True)
@@ -121,26 +121,29 @@ for ori in orientations:
         config["output"]["spikes_file_csv"] = output_spikes_csv_file
         config["output"]["output_dir"] = output_dir
 
-        # Write the config file
-        config_filename = os.path.join(output_dir, f"config_ori{ori}_trial{trial}.json")
-        with open(config_filename, 'w') as f:
-            json.dump(config, f, indent=2)
-
-        # Run the simulation
-        print(f"Running simulation for ori={ori}, trial={trial}")
-        result = run_simulation(config_filename, 1)
-
-        # Check if output files are created
-        if not os.path.exists(os.path.join(output_dir, output_spikes_file)):
-            print(f"Warning: Output spikes file {output_spikes_file} not found in {output_dir}.")
-        if not os.path.exists(os.path.join(output_dir, output_spikes_csv_file)):
-            print(f"Warning: Output spikes CSV file {output_spikes_csv_file} not found in {output_dir}.")
-
-        # Check log file for errors
-        log_file = os.path.join(output_dir, "log.txt")
-        if os.path.exists(log_file):
-            with open(log_file, 'r') as log:
-                log_content = log.read()
-                print(f"Log file content for ori={ori}, trial={trial}:\n{log_content}")
+        if os.path.exists(os.path.join(output_dir, output_spikes_csv_file)):
+            print(f"Output spikes CSV file {output_spikes_csv_file} already exists in {output_dir}, skipping....")
         else:
-            print(f"Warning: Log file {log_file} not found in {output_dir}.")
+            # Write the config file
+            config_filename = os.path.join(output_dir, f"config_ori{ori}_trial{trial}.json")
+            with open(config_filename, 'w') as f:
+                json.dump(config, f, indent=2)
+
+            # Run the simulation
+            print(f"Running simulation for ori={ori}, trial={trial}")
+            result = run_simulation(config_filename, 2)
+
+            # Check if output files are created
+            if not os.path.exists(os.path.join(output_dir, output_spikes_file)):
+                print(f"Warning: Output spikes file {output_spikes_file} not found in {output_dir}.")
+            if not os.path.exists(os.path.join(output_dir, output_spikes_csv_file)):
+                print(f"Warning: Output spikes CSV file {output_spikes_csv_file} not found in {output_dir}.")
+
+            # Check log file for errors
+            log_file = os.path.join(output_dir, "log.txt")
+            if os.path.exists(log_file):
+                with open(log_file, 'r') as log:
+                    log_content = log.read()
+                    print(f"Log file content for ori={ori}, trial={trial}:\n{log_content}")
+            else:
+                print(f"Warning: Log file {log_file} not found in {output_dir}.")

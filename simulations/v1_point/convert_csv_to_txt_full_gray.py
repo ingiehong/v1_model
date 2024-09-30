@@ -9,7 +9,7 @@ def convert_csv_to_txt(input_folder, output_folder):
 
     for trial in range(10):
         print("trial =", trial)
-        subfolder_name = f"sg9_12s_full_gray_trial_{trial}"
+        subfolder_name = f"sg10_12s_full_gray_trial_{trial}"
 
         csv_file_name = f"12s_full_gray_spikes_trial_{trial}.csv"
         csv_path = os.path.join(input_folder, subfolder_name, csv_file_name)
