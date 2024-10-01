@@ -12,7 +12,6 @@ bkg_base_dir = os.path.join(base_dir, '../bkg_inputs')
 # Simulation parameters
 orientations = [0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 180.0, 210.0, 240.0, 270.0, 300.0, 330.0]
 trials = 10
-
 # Template configuration
 config_template = {
     "manifest": {
@@ -38,8 +37,8 @@ config_template = {
         },
         "BKG_spikes": {
             "input_type": "spikes",
-            "module": "h5",
-            "input_file": "$BKG_DIR/results/bkg_spikes_n1_fr1000_dt0.25/spikes.trial_0.h5",
+            "module": "csv",
+            "input_file": "",  # Will be updated per simulation,
             "node_set": "bkg"
         }
     },
@@ -112,11 +111,13 @@ for ori in orientations:
         # Update the configuration
         config = config_template.copy()
         lgn_input_file = f"$LGN_DIR/results/12s_SF0.04_TF2.0_ori{ori}_c100.0_gs0.5/spikes.trial_{trial}.h5"
+        bkg_input_file = f"$BKG_DIR/results/bkg_spikes_n1_fr1000_dt0.25_12s/spikes.trial_{trial}.csv"
         output_spikes_file = f"12s_SF0.04_TF2.0_ori{ori}_c100.0_gs0.5_spikes_trial_{trial}.h5"
         output_spikes_csv_file = f"12s_SF0.04_TF2.0_ori{ori}_c100.0_gs0.5_spikes_trial_{trial}.csv"
 
         config["manifest"]["$OUTPUT_DIR"] = output_dir
         config["inputs"]["LGN_spikes"]["input_file"] = lgn_input_file
+        config["inputs"]["BKG_spikes"]["input_file"] = bkg_input_file
         config["output"]["spikes_file"] = output_spikes_file
         config["output"]["spikes_file_csv"] = output_spikes_csv_file
         config["output"]["output_dir"] = output_dir
