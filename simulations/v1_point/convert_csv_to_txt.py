@@ -16,17 +16,20 @@ def convert_csv_to_txt(input_folder, output_folder):
             txt_file_name = f"12s_SF0.04_TF2.0_ori{ori}.0_c100.0_gs0.5_spikes_trial_{trial}.txt"
             txt_path = os.path.join(output_folder, txt_file_name)
 
-                # Read the CSV file
-            df = pd.read_csv(csv_path, sep=' ')
+            if os.path.exists(os.path.join(output_folder, txt_file_name)):
+                print(f"Output spikes CSV file {txt_file_name} already exists in {output_folder}, skipping....")
+            else:
+                    # Read the CSV file
+                df = pd.read_csv(csv_path, sep=' ')
 
-                # Sort by "timestamps" in ascending order
-            df_sorted = df.sort_values(by="timestamps")
+                    # Sort by "timestamps" in ascending order
+                df_sorted = df.sort_values(by="timestamps")
 
-                # Drop the "population" column
-            df_sorted = df_sorted.drop(columns=["population"])
+                    # Drop the "population" column
+                df_sorted = df_sorted.drop(columns=["population"])
 
-                # Save to .txt file
-            df_sorted.to_csv(txt_path, sep=' ', index=False, header=False)
+                    # Save to .txt file
+                df_sorted.to_csv(txt_path, sep=' ', index=False, header=False)
 
 
 # Task 2: Create "simulation 1" folder and move .txt files
