@@ -64,7 +64,7 @@ config_template = {
         "nodes": [
             {
                 "nodes_file": "$NETWORK_DIR/v1_nodes.h5",
-                "node_types_file": "$NETWORK_DIR/v1_node_types.csv"
+                "node_types_file": "$NETWORK_DIR/v1_node_types_sg2.csv"
             },
             {
                 "nodes_file": "$NETWORK_DIR/lgn_nodes.h5",
@@ -78,7 +78,7 @@ config_template = {
         "edges": [
             {
                 "edges_file": "$NETWORK_DIR/v1_v1_edges.h5",
-                "edge_types_file": "$NETWORK_DIR/v1_v1_edge_types_sg10.csv"
+                "edge_types_file": "$NETWORK_DIR/v1_v1_edge_types_sg5.csv"
             },
             {
                 "edges_file": "$NETWORK_DIR/lgn_v1_edges.h5",
@@ -95,7 +95,7 @@ config_template = {
 
 # Function to run the simulation
 def run_simulation(config_file, num_cores):
-    result = subprocess.run(["mpirun", "-np", str(num_cores), "python", "run_pointnet.py", config_file], timeout=1800, capture_output=True,
+    result = subprocess.run(["mpirun", "-np", str(num_cores), "python", "run_pointnet.py", config_file], timeout=3600, capture_output=True,
                             text=True)
     print(result.stdout)
     print(result.stderr)
@@ -106,7 +106,7 @@ def run_simulation(config_file, num_cores):
 for ori in orientations:
     for trial in range(trials):
         # Create unique output directory for each simulation
-        output_dir = os.path.join(base_dir, 'output', f'sg10_12s_ori_{ori}_trial_{trial}')
+        output_dir = os.path.join(base_dir, 'output', f'sg11_12s_ori_{ori}_trial_{trial}')
         os.makedirs(output_dir, exist_ok=True)
 
         # Update the configuration
@@ -133,7 +133,7 @@ for ori in orientations:
 
             # Run the simulation
             print(f"Running simulation for ori={ori}, trial={trial}")
-            result = run_simulation(config_filename, 2)
+            result = run_simulation(config_filename, 1)
 
             # Check if output files are created
             if not os.path.exists(os.path.join(output_dir, output_spikes_file)):

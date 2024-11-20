@@ -9,7 +9,7 @@ node_type_id model_type model_template dynamics_params pop_name gaba_synapse ei 
 490916919 point_process nest:glif_psc 490916919_glif_psc.json e5Rbp4 NULL e Cortex v1 L5
 486110216 point_process nest:glif_psc 486110216_glif_psc.json e5Rbp4 NULL e Cortex v1 L5
 486176465 point_process nest:glif_psc 486176465_glif_psc.json e5Rbp4 NULL e Cortex v1 L5
-487661754 point_process nest:glif_psc 487661754_glif_psc_sg1.json e23Cux2 NULL e Cortex v1 L23
+487661754 point_process nest:glif_psc 487661754_glif_psc_sg2.json e23Cux2 NULL e Cortex v1 L23
 471087830 point_process nest:glif_psc 471087830_glif_psc.json i6Pvalb NULL i Cortex v1 L6
 478058328 point_process nest:glif_psc 478058328_glif_psc.json i6Pvalb NULL i Cortex v1 L6
 478828646 point_process nest:glif_psc 478828646_glif_psc.json i6Pvalb NULL i Cortex v1 L6

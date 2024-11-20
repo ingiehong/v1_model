@@ -9,7 +9,7 @@ def convert_csv_to_txt(input_folder, output_folder):
     for ori in range(0, 360, 30):
         for trial in range(10):
             print("ori = ", ori, "trial =", trial)
-            subfolder_name = f"sg10_12s_ori_{ori}.0_trial_{trial}"
+            subfolder_name = f"sg11_12s_ori_{ori}.0_trial_{trial}"
 
             csv_file_name = f"12s_SF0.04_TF2.0_ori{ori}.0_c100.0_gs0.5_spikes_trial_{trial}.csv"
             csv_path = os.path.join(input_folder, subfolder_name, csv_file_name)
@@ -34,7 +34,7 @@ def convert_csv_to_txt(input_folder, output_folder):
 
 # Task 2: Create "simulation 1" folder and move .txt files
 def create_simulation_folder(base_folder):
-    simulation_folder = os.path.join(base_folder, "syngap simulation 10")
+    simulation_folder = os.path.join(base_folder, "syngap simulation 11")
     if not os.path.exists(simulation_folder):
         os.makedirs(simulation_folder)
     return simulation_folder
